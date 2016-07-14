@@ -17,11 +17,15 @@ RUN apt-get install -yq build-essential autoconf automake bison flex \
 && git clone --recursive https://github.com/wireshark/wireshark.git \
 && cd /tmp/wireshark \
 && ./autogen.sh  \
-&& ./configure --enable-tfshark --with-dumpcap-group=wireshark --enable-setuid-install \
+&& ./configure --enable-tfshark --with-dumpcap-group=wireshark --enable-setcap-install \
 && make && make install && ldconfig \
 && echo "wireshark:wireshark" > /tmp/pass && /usr/sbin/chpasswd < /tmp/pass \
 && echo "wireshark    ALL=(ALL) ALL" >> /etc/sudoers \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN setcap cap_net_raw,cap_net_admin=eip /usr/local/bin/dumpcap
+RUN usermod -a -G wireshark wireshark
+RUN chgrp wireshark /usr/local/bin/dumpcap
+RUN chmod 750 /usr/local/bin/dumpcap
 USER wireshark
 CMD ["/bin/bash"]
