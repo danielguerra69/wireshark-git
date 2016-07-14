@@ -17,7 +17,7 @@ RUN apt-get install -yq build-essential autoconf automake bison flex \
 && git clone --recursive https://github.com/wireshark/wireshark.git \
 && cd /tmp/wireshark \
 && ./autogen.sh  \
-&& ./configure --enable-tfshark --with-dumpcap-group=wireshark --enable-setcap-install \
+&& ./configure --with-ssl --enable-tfshark --with-dumpcap-group=wireshark --enable-setcap-install \
 && make && make install && ldconfig \
 && echo "wireshark:wireshark" > /tmp/pass && /usr/sbin/chpasswd < /tmp/pass \
 && echo "wireshark    ALL=(ALL) ALL" >> /etc/sudoers \

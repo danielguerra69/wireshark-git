@@ -21,3 +21,8 @@ docker run -ti --net=host --privileged -v $HOME:/root:ro -e XAUTHORITY=/root/.Xa
 ```bash
 docker run -ti -a stdout -v mypacapdir:/pcap danielguerra/wireshark-git tshark -r /pcap/test.pcap -T ek | curl -s -XPOST elasticsearch:9200/_bulk --data-binary @-
 ```
+
+Everything runs under user wireshark, the user
+has sudo rights.
+
+Password for user wireshark = wireshark
